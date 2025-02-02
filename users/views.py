@@ -1,11 +1,7 @@
-from django.shortcuts import render
 from rest_framework import generics, permissions
-from rest_framework.response import Response
-from rest_framework_simplejwt.views import TokenObtainPairView
 from django.contrib.auth import get_user_model
 from .serializers import UserRegistrationSerializer, UserProfileSerializer
 
-# Create your views here.
 
 User = get_user_model()
 

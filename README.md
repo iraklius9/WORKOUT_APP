@@ -30,12 +30,12 @@ A RESTful API for a Personalized Workout Plan system that allows users to create
    - Detailed endpoint documentation
 
 ### Bonus Features
-6. **Real-time Workout Mode**
+1. **Real-time Workout Mode**
    - Guided workout sessions
    - Exercise completion tracking
    - Rest period timers
 
-7. **Docker Support**
+2. **Docker Support**
    - Easy deployment with Docker
    - PostgreSQL database integration
 
@@ -385,15 +385,15 @@ ws://localhost:8000/ws/workout/<workout_id>/
 
 Example messages:
 ```json
-// Exercise completion
 {
     "type": "exercise_complete",
     "exercise_id": 1,
     "completed_sets": 3,
     "completed_reps": 12
 }
+```
 
-// Server response
+```json
 {
     "type": "workout_update",
     "message": {
@@ -404,77 +404,6 @@ Example messages:
 }
 ```
 
-## Additional Features to Consider
-
-1. **Social Features**:
-   - Friend system
-   - Share workout plans
-   - Community challenges
-   - Social feed of workouts
-   - Comments and likes on workouts
-
-2. **Advanced Analytics**:
-   - Visual progress charts
-   - Body measurements tracking
-   - Workout performance analytics
-   - Personal records tracking
-   - AI-powered workout recommendations
-
-3. **Nutrition Integration**:
-   - Meal planning
-   - Calorie tracking
-   - Macro tracking
-   - Recipe database
-   - Integration with nutrition APIs
-
-4. **Gamification**:
-   - Achievement system
-   - Workout streaks
-   - Points and levels
-   - Badges for milestones
-   - Monthly challenges
-
-5. **Mobile Features**:
-   - Mobile app (React Native/Flutter)
-   - Offline mode
-   - Push notifications
-   - Exercise form videos
-   - Voice commands
-
-6. **Health Integration**:
-   - Connect with fitness wearables
-   - Heart rate monitoring
-   - Sleep tracking
-   - Step counting
-   - Integration with Apple Health/Google Fit
-
-7. **AI and Machine Learning**:
-   - Personalized workout recommendations
-   - Form checking using computer vision
-   - Progress prediction
-   - Workout difficulty adjustment
-   - Smart rest period suggestions
-
-8. **Enhanced Security**:
-   - Two-factor authentication
-   - OAuth social login
-   - Rate limiting
-   - Advanced password policies
-   - Session management
-
-9. **Premium Features**:
-   - Subscription system
-   - Premium workout plans
-   - Personal trainer access
-   - Advanced analytics
-   - Priority support
-
-10. **Content Management**:
-    - Blog system
-    - Exercise tutorials
-    - Nutrition articles
-    - Success stories
-    - Expert advice section
 
 ## Security Notes
 

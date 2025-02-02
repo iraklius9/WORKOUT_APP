@@ -10,7 +10,6 @@ from .serializers import (
     ActiveWorkoutSerializer, ExerciseLogSerializer
 )
 
-# Create your views here.
 
 class WorkoutPlanViewSet(viewsets.ModelViewSet):
     serializer_class = WorkoutPlanSerializer
@@ -23,7 +22,7 @@ class WorkoutPlanViewSet(viewsets.ModelViewSet):
         serializer.save(user=self.request.user)
 
     @action(detail=True, methods=['post'])
-    def add_session(self, request, pk=None):
+    def add_session(self, request):
         plan = self.get_object()
         serializer = WorkoutSessionSerializer(data=request.data)
         if serializer.is_valid():
@@ -39,7 +38,7 @@ class WorkoutSessionViewSet(viewsets.ModelViewSet):
         return WorkoutSession.objects.filter(plan__user=self.request.user)
 
     @action(detail=True, methods=['post'])
-    def add_exercise(self, request, pk=None):
+    def add_exercise(self, request):
         session = self.get_object()
         serializer = WorkoutExerciseSerializer(data=request.data)
         if serializer.is_valid():
@@ -68,7 +67,7 @@ class ActiveWorkoutViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     @action(detail=True, methods=['post'])
-    def complete_exercise(self, request, pk=None):
+    def complete_exercise(self, request):
         active_workout = self.get_object()
         workout_exercise_id = request.data.get('workout_exercise_id')
         
@@ -84,7 +83,6 @@ class ActiveWorkoutViewSet(viewsets.ModelViewSet):
                 completed_at=timezone.now()
             )
             
-            # Check if all exercises are completed
             total_exercises = active_workout.session.exercises.count()
             completed_exercises = active_workout.exercise_logs.count()
             

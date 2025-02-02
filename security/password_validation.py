@@ -1,12 +1,11 @@
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext as _
-import re
 
 class ComplexPasswordValidator:
     def __init__(self, min_length=8):
         self.min_length = min_length
 
-    def validate(self, password, user=None):
+    def validate(self, password):
         if len(password) < self.min_length:
             raise ValidationError(
                 _("Password must be at least %(min_length)d characters long."),
@@ -42,7 +41,8 @@ class ComplexPasswordValidator:
         )
 
 class CommonPasswordValidator:
-    def validate(self, password, user=None):
+    @staticmethod
+    def validate(password):
         common_passwords = {
             '123456', 'password', 'qwerty', 'abc123', 'password123',
             'admin', '12345678', 'welcome', 'letmein', 'monkey'
@@ -53,5 +53,6 @@ class CommonPasswordValidator:
                 code='password_too_common',
             )
 
-    def get_help_text(self):
+    @staticmethod
+    def get_help_text():
         return _("Your password cannot be a commonly used password.")

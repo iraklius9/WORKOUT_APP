@@ -2,7 +2,6 @@ from django.db import models
 from django.conf import settings
 from exercises.models import Exercise
 
-# Create your models here.
 
 class WorkoutPlan(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

@@ -2,8 +2,6 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django_otp import devices_for_user
 from django_otp.plugins.otp_totp.models import TOTPDevice
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import FormView
 from django import forms
 import qrcode
 import qrcode.image.svg
@@ -22,12 +20,10 @@ def get_user_totp_device(user, confirmed=None):
 @login_required
 def two_factor_setup(request):
     if request.method == 'GET':
-        # Generate TOTP device if not exists
         device = get_user_totp_device(request.user)
         if not device:
             device = TOTPDevice.objects.create(user=request.user, confirmed=False)
 
-        # Generate QR code
         url = device.config_url
         img = qrcode.make(url, image_factory=qrcode.image.svg.SvgImage)
         buffer = BytesIO()
@@ -39,7 +35,6 @@ def two_factor_setup(request):
             'secret_key': device.key,
         })
 
-    # Verify token and confirm device
     if request.method == 'POST':
         code = request.POST.get('code')
         device = get_user_totp_device(request.user)

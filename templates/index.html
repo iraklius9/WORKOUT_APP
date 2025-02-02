@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Plan API</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --success-color: #16a34a;
+            --warning-color: #ca8a04;
+            --danger-color: #dc2626;
+            --background-color: #f8fafc;
+        }
+
+        body {
+            background-color: var(--background-color);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        .navbar {
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 4rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .endpoint-card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+            transition: transform 0.2s;
+        }
+
+        .endpoint-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .method {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+        }
+
+        .get { background-color: var(--success-color); color: white; }
+        .post { background-color: var(--primary-color); color: white; }
+        .put { background-color: var(--warning-color); color: white; }
+        .delete { background-color: var(--danger-color); color: white; }
+
+        .endpoint-url {
+            font-family: monospace;
+            background-color: #f1f5f9;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: inline-block;
+        }
+        .endpoint-url:hover {
+            background-color: #e2e8f0;
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+
+        .endpoint-url.disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+
+        .feature-icon {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .tech-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            background-color: rgba(255, 255, 255, 0.9);
+            margin: 0.25rem;
+            font-size: 0.875rem;
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="bi bi-activity"></i> Workout Plan API
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/"><i class="bi bi-shield-lock"></i> Admin</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/api/docs/"><i class="bi bi-file-text"></i> API Docs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/api/redoc/"><i class="bi bi-book"></i> ReDoc</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero-section">
+        <div class="container">
+            <h1 class="display-4 mb-3">Workout Plan API</h1>
+            <p class="lead">A comprehensive RESTful API for managing personalized workout plans and tracking fitness progress</p>
+            <div class="mt-4">
+                <span class="tech-badge"><i class="bi bi-boxes"></i> Django REST</span>
+                <span class="tech-badge"><i class="bi bi-database"></i> PostgreSQL</span>
+                <span class="tech-badge"><i class="bi bi-shield-check"></i> JWT Auth</span>
+                <span class="tech-badge"><i class="bi bi-shield-lock"></i> 2FA</span>
+                <span class="tech-badge"><i class="bi bi-file-text"></i> Swagger</span>
+                <span class="tech-badge"><i class="bi bi-docker"></i> Docker</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="container py-4">
+        <div class="row mb-5">
+            <div class="col-md-4">
+                <div class="text-center">
+                    <i class="bi bi-shield-check feature-icon"></i>
+                    <h3>Secure</h3>
+                    <p>JWT authentication with 2FA support</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <i class="bi bi-lightning feature-icon"></i>
+                    <h3>Fast</h3>
+                    <p>Optimized REST API performance</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center">
+                    <i class="bi bi-diagram-3 feature-icon"></i>
+                    <h3>Scalable</h3>
+                    <p>Docker & PostgreSQL ready</p>
+                </div>
+            </div>
+        </div>
+
+        <h2 class="mb-4">API Endpoints</h2>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="endpoint-card p-4">
+                    <h3><i class="bi bi-key"></i> Authentication</h3>
+                    <div class="mb-3">
+                        <span class="method post">POST</span>
+                        <a href="/api/token/" class="endpoint-url">/api/token/</a>
+                        <p class="text-muted mb-0">Get JWT tokens</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="method post">POST</span>
+                        <a href="/api/token/refresh/" class="endpoint-url">/api/token/refresh/</a>
+                        <p class="text-muted mb-0">Refresh JWT token</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="endpoint-card p-4">
+                    <h3><i class="bi bi-person-lock"></i> Security</h3>
+                    <div class="mb-3">
+                        <span class="method get">GET</span>
+                        <a href="/api/security/2fa/setup/" class="endpoint-url">/api/security/2fa/setup/</a>
+                        <p class="text-muted mb-0">Setup Two-Factor Authentication</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="method get">GET</span>
+                        <a href="/api/security/2fa/success/" class="endpoint-url">/api/security/2fa/success/</a>
+                        <p class="text-muted mb-0">2FA Setup Success</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="endpoint-card p-4">
+                    <h3><i class="bi bi-play-circle"></i> Active Workouts</h3>
+                    <div class="mb-3">
+                        <span class="method get">GET</span>
+                        <a href="/api/workouts/" class="endpoint-url">/api/workouts/</a>
+                        <p class="text-muted mb-0">List active workouts</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="method post">POST</span>
+                        <a href="/api/workouts/start/" class="endpoint-url">/api/workouts/start/</a>
+                        <p class="text-muted mb-0">Start workout session</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="method post">POST</span>
+                        <span class="endpoint-url disabled">/api/workouts/{id}/complete/</span>
+                        <p class="text-muted mb-0">Complete workout</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="method post">POST</span>
+                        <span class="endpoint-url disabled">/api/workouts/{id}/exercises/{exercise_id}/</span>
+                        <p class="text-muted mb-0">Log exercise progress</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="endpoint-card p-4">
+                    <h3><i class="bi bi-activity"></i> Exercises</h3>
+                    <div class="mb-3">
+                        <span class="method get">GET</span>
+                        <a href="/api/exercises/" class="endpoint-url">/api/exercises/</a>
+                        <p class="text-muted mb-0">List all exercises</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="method post">POST</span>
+                        <a href="/api/exercises/" class="endpoint-url">/api/exercises/</a>
+                        <p class="text-muted mb-0">Create new exercise</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="method get">GET</span>
+                        <span class="endpoint-url disabled">/api/exercises/{id}/</span>
+                        <p class="text-muted mb-0">Get exercise details</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="method put">PUT</span>
+                        <span class="endpoint-url disabled">/api/exercises/{id}/</span>
+                        <p class="text-muted mb-0">Update exercise</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="endpoint-card p-4">
+                    <h3><i class="bi bi-calendar-check"></i> Workout Plans</h3>
+                    <div class="mb-3">
+                        <span class="method get">GET</span>
+                        <a href="/api/workout-plans/" class="endpoint-url">/api/workout-plans/</a>
+                        <p class="text-muted mb-0">List workout plans</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="method post">POST</span>
+                        <a href="/api/workout-plans/" class="endpoint-url">/api/workout-plans/</a>
+                        <p class="text-muted mb-0">Create workout plan</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="method get">GET</span>
+                        <span class="endpoint-url disabled">/api/workout-plans/{id}/sessions/</span>
+                        <p class="text-muted mb-0">List plan sessions</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="endpoint-card p-4">
+                    <h3><i class="bi bi-graph-up"></i> Progress & Goals</h3>
+                    <div class="mb-3">
+                        <span class="method get">GET</span>
+                        <a href="/api/progress/tracking/" class="endpoint-url">/api/progress/tracking/</a>
+                        <p class="text-muted mb-0">View progress history</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="method post">POST</span>
+                        <a href="/api/progress/tracking/" class="endpoint-url">/api/progress/tracking/</a>
+                        <p class="text-muted mb-0">Log progress entry</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="method get">GET</span>
+                        <a href="/api/progress/goals/" class="endpoint-url">/api/progress/goals/</a>
+                        <p class="text-muted mb-0">List all goals</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="method post">POST</span>
+                        <a href="/api/progress/goals/" class="endpoint-url">/api/progress/goals/</a>
+                        <p class="text-muted mb-0">Create new goal</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="method get">GET</span>
+                        <span class="endpoint-url disabled">/api/progress/goals/{id}/</span>
+                        <p class="text-muted mb-0">Get goal details</p>
+                    </div>
+                    <div class="mb-3">
+                        <span class="method put">PUT</span>
+                        <span class="endpoint-url disabled">/api/progress/goals/{id}/</span>
+                        <p class="text-muted mb-0">Update goal</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-light py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Tech Stack</h5>
+                    <p>Built with Django REST Framework, PostgreSQL, and JWT Authentication</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <h5>Documentation</h5>
+                    <a href="/api/docs/" class="text-light">Swagger UI</a> |
+                    <a href="/api/redoc/" class="text-light">ReDoc</a>
+                </div>
+            </div>
+            <hr>
+            <p class="text-center mb-0"> 2025 Workout Plan API. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
